@@ -1,7 +1,15 @@
 import {Link, NavLink} from "react-router-dom";
 import logo from "../../../public/assets/logo.svg";
+import useAuth from "../../hooks/useAuth/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const {user, logOut} = useAuth();
+
+  const handleLogOut = () => {
+    logOut().then(Swal.fire("User Logout Successfully!")).then();
+  };
+
   const navLinks = (
     <>
       <li>
@@ -44,6 +52,20 @@ const Navbar = () => {
           Contact
         </NavLink>
       </li>
+      {user ? (
+        <li>
+          <NavLink
+            className={({isActive}) =>
+              isActive ? "bg-red-500 text-white" : ""
+            }
+            to="/booking"
+          >
+            My Booking
+          </NavLink>
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
 
@@ -82,6 +104,23 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end">
+        {user ? (
+          <div className="hidden md:flex lg:flex">
+            <div className="tooltip" data-tip={user?.displayName}>
+              <img className="size-10 rounded-full mr-2" src={user?.photoURL} />
+            </div>
+            <button
+              onClick={handleLogOut}
+              className="bg-red-400 px-3 py-1 rounded-xl text-white"
+            >
+              LogOut
+            </button>
+          </div>
+        ) : (
+          <Link to="/login" className="btn btn-secondary">
+            Login
+          </Link>
+        )}
         <a className="btn btn-outline btn-warning">Appointment</a>
       </div>
     </div>

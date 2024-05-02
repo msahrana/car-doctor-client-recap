@@ -1,7 +1,44 @@
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Img from "../../../public/assets/images/login/login.svg";
+import {useForm} from "react-hook-form";
+import useAuth from "../../hooks/useAuth/useAuth";
+import {useState} from "react";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const {signIn} = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const {email, password} = data || {};
+
+    setError("");
+    signIn(email, password)
+      .then((result) => {
+        console.log(result.user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "User loggedIn successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("email and password does not matched!");
+      });
+  };
+
   return (
     <div className="hero bg-base-100 my-7">
       <div className="hero-content flex-col lg:flex-row w-full">
@@ -11,7 +48,7 @@ const Login = () => {
         {/* login forms are downward */}
         <div className="w-full max-w-md p-8 space-y-3 rounded-xl border-2">
           <h1 className="text-2xl font-bold text-center">Please Login</h1>
-          <form noValidate="" action="" className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-1 text-sm">
               <label htmlFor="email" className="block">
                 Email
@@ -22,7 +59,11 @@ const Login = () => {
                 id="email"
                 placeholder="Your Email"
                 className="w-full px-4 py-3 rounded-md border"
+                {...register("email", {required: true})}
               />
+              {errors.email && (
+                <span className="text-red-400">Email is required</span>
+              )}
             </div>
             <div className="space-y-1 text-sm">
               <label htmlFor="password" className="block">
@@ -34,12 +75,17 @@ const Login = () => {
                 id="password"
                 placeholder="Password"
                 className="w-full px-4 py-3 rounded-md border"
+                {...register("password", {required: true})}
               />
+              {errors.password && (
+                <span className="text-red-400">Password is required</span>
+              )}
             </div>
             <button className="block w-full p-3 text-center text-white rounded-sm bg-[#FF3811]">
               Login
             </button>
           </form>
+          {error && <p className="text-red-600">{error}</p>}
           <div className="flex items-center pt-4 space-x-1">
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
             <p className="px-3 text-sm dark:text-gray-600">

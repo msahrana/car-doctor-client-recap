@@ -94,6 +94,7 @@ const CheckOut = () => {
               defaultValue={user?.email}
               className="input input-bordered"
               required
+              readOnly
             />
           </div>
           <div className="form-control">

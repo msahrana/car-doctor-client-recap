@@ -2,16 +2,19 @@ import {useEffect, useState} from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import BookingRow from "./BookingRow";
 import Img from "../../../public/assets/images/booking/booking.png";
+import axios from "axios";
 
 const Booking = () => {
   const {user} = useAuth();
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/booking?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setBookings(data);
+    axios
+      .get(`http://localhost:5000/booking?email=${user?.email}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setBookings(res.data);
       });
   }, [user?.email]);
 

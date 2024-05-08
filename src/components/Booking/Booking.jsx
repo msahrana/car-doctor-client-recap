@@ -2,21 +2,23 @@ import {useEffect, useState} from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import BookingRow from "./BookingRow";
 import Img from "../../../public/assets/images/booking/booking.png";
-import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 
 const Booking = () => {
   const {user} = useAuth();
   const [bookings, setBookings] = useState([]);
+  const axiosSecure = useAxiosSecure();
+
+  // const url = `http://localhost:5000/booking?email=${user?.email}`
+  const url = `/booking?email=${user?.email}`;
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/booking?email=${user?.email}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
+    if (user?.email) {
+      axiosSecure.get(url).then((res) => {
         setBookings(res.data);
       });
-  }, [user?.email]);
+    }
+  }, [url, axiosSecure, user]);
 
   return (
     <div className="overflow-x-auto">

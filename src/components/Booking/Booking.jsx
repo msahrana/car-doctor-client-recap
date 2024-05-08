@@ -9,7 +9,7 @@ const Booking = () => {
   const [bookings, setBookings] = useState([]);
   const axiosSecure = useAxiosSecure();
 
-  // const url = `http://localhost:5000/booking?email=${user?.email}`
+  // const url = `https://car-doctor-server-recap-seven.vercel.app/booking?email=${user?.email}`
   const url = `/booking?email=${user?.email}`;
 
   useEffect(() => {

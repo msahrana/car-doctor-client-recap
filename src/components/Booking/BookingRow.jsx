@@ -14,9 +14,12 @@ const BookingRow = ({booking, bookings, setBookings}) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/booking/${_id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://car-doctor-server-recap-seven.vercel.app/booking/${_id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount > 0) {
@@ -36,7 +39,7 @@ const BookingRow = ({booking, bookings, setBookings}) => {
   };
 
   const handleUpdate = (_id) => {
-    fetch(`http://localhost:5000/booking/${_id}`, {
+    fetch(`https://car-doctor-server-recap-seven.vercel.app/booking/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

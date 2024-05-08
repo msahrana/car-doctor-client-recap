@@ -36,7 +36,9 @@ const Login = () => {
         console.log(loggedUser);
         const user = {email};
         axios
-          .post("http://localhost:5000/jwt", user, {withCredentials: true})
+          .post("https://car-doctor-server-recap-seven.vercel.app/jwt", user, {
+            withCredentials: true,
+          })
           .then((res) => {
             console.log(res.data);
             if (register.data.success) {

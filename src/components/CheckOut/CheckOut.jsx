@@ -26,7 +26,7 @@ const CheckOut = () => {
       massage: massage,
     };
     console.log(order);
-    fetch("http://localhost:5000/booking", {
+    fetch("https://car-doctor-server-recap-seven.vercel.app/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",

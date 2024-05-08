@@ -34,7 +34,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({params}) =>
-          fetch(`http://localhost:5000/services/${params.id}`),
+          fetch(
+            `https://car-doctor-server-recap-seven.vercel.app/services/${params.id}`
+          ),
       },
       {
         path: "/booking",

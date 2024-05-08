@@ -35,7 +35,6 @@ const Register = () => {
     /* create user */
     createUser(email, password)
       .then((result) => {
-        console.log(result.user);
         Swal.fire({
           position: "top-end",
           icon: "success",
